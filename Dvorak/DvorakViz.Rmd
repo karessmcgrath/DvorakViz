@@ -1,0 +1,144 @@
+---
+title: "DvorakViz"
+author: "Karess McGrath"
+date: "September 20, 2016"
+output: 
+  html_document:
+          code_folding: hide
+          toc: true
+          toc_depth: 5
+          toc_float:
+            collapsed: false
+            smooth_scroll: true
+          #number_sections: 
+            upper_roman: true
+          fig_caption: true
+          fig_retina: true
+          theme: journal
+          highlight: pygment
+          widescreen: true
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+##A. Loading Packages
+```{r loadlibraries, collapse=TRUE}
+#Clear existing data and graphics
+rm(list=ls())
+graphics.off()
+#Load Hmisc library
+#install.packages("Hmisc")
+library("Hmisc") # Needed for REDCap data cleaning
+#install.packages("car") 
+library("car") #Needed to use recode function
+#install.packages("dplyr")
+library("dplyr") #Needed for data cleaning
+library("data.table")
+library("knitr")
+library("pander")
+library("explodingboxplotR")
+library("psych")
+library("utils")
+
+```
+##B. Data Import
+
+```{r readdata)
+#Read Data
+```{r}
+dvorak <- read.csv('/Users/Ressa/Google Drive/DvorakViz/Dvorak/dvorak.data.csv', header = T)
+```
+
+```{r}
+site.freq <-table(dvorak$Site)
+site.freq
+```
+
+```{r}
+exploding_boxplot(
+  data.frame(
+    rowname = rownames(dvorak),
+    dvorak,
+    stringsAsFactors = T
+  ),
+  y = "Composed.Year",
+  group = "Genre",
+  color = "Genre",
+  label = "English.Title",
+  #iqr = 2,
+  margin = list(bottom = 40, left = 40, top = 20, right = 20),
+  xlab = "Spray Type",
+  ylab = "Count Provided"
+)
+```
+
+<!-- ```{r} -->
+<!-- var container = d3.select('body'); -->
+<!-- var xbp = explodingBoxplot(); -->
+<!-- xbp.options({ -->
+<!--   data: { -->
+<!--     group: 'Genre', -->
+<!--     color_index: 'Genre', -->
+<!--     identifier: 'English.Title', -->
+<!--   }, -->
+<!--   axes: { -->
+<!--     x: { label: 'Set Score' }, -->
+<!--     y: { label: 'Total Points' } -->
+<!--   } -->
+<!-- }); -->
+<!-- xbp.data(dvorak); -->
+<!-- container.call(xbp); -->
+<!-- xbp.update(); -->
+
+<!-- ``` -->
+
+
+
+<!-- ```{r} -->
+<!-- var chart = exploding_boxplot(dvorak, -->
+<!--             {y:"Composed.Year", group:"Genre", color:"Genre", label:"English.Title"}) -->
+
+<!-- #//call chart on a div -->
+<!-- chart() -->
+<!-- ``` -->
+
+
+<!-- ```{r echo=T} -->
+
+<!-- #library("dplyr",quietly = T) #Needed for data cleaning -->
+<!-- #library("data.table",quietly = T) -->
+<!-- #library(knitr,quietly=T) -->
+
+<!-- #dfadvorak <- data.frame(dvorak) -->
+<!-- #names(dfatot) -->
+<!-- #colnames(dfadvorak) <- c("B.Number", "Opus" ,"Date", "English.Title", "Instrumentation") -->
+<!-- #dfadvorak <- arrange_(dfadvorak, ~(-B.Number)) -->
+<!-- #kable(arrange_(dfatot[1:9, ], ~(-Total.Responses))) -->
+<!-- #dfatot[with(dfatot,order("Total Responses")), ] -->
+<!-- #sort(dfatot$"Total Reponses") -->
+<!-- #sort1.dfatot <- dfatot[order("Total Responses"), ] -->
+<!-- #dfatot <- dfatot[order("Freq","Var1"),] -->
+<!-- #kable(dfadvorak[1:241, ], padding=0) -->
+<!-- ``` -->
